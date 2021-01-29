@@ -2,7 +2,7 @@
 Teste de software usando JUnit
 
 
-##Padrões
+#Padrões
 
 - Por padrão e boas práticas de programação em testes de software e de prática utilizar a seguinte estrutura de nome nas classes de teste
 
