@@ -35,6 +35,12 @@
       <version>${junit.version}</version>
       <scope>test</scope>
     </dependency>
+  
+    <dependency>
+      <groupId>org.scala-js</groupId>
+      <artifactId>scalajs-junit-test-runtime_2.13</artifactId>
+      <version>1.5.0</version>
+    </dependency>
   </dependencies>
   <build>
     <plugins>

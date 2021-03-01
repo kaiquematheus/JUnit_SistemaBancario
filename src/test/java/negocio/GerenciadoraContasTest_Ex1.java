@@ -1,6 +1,8 @@
 package negocio;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -49,4 +51,152 @@ public class GerenciadoraContasTest_Ex1 {
     assertEquals(100.0, conta01.getSaldo());
     assertEquals(100.0, conta02.getSaldo());
     }
+
+
+    /**
+	 * Teste básico da tentativa de transferência de um valor da conta de um cliente para outro,
+	 * quando não há saldo suficiente, mas o saldo é positivo.
+	 * 
+	 * @author Kaíque Matheus
+     * @date 01/03/2021 
+	 */
+    @Test
+    public void testTRansefeValor_SaldoInsuficiente(){
+        /* ############ Cenário ############ */
+
+        // Criando algumas contas
+        int idConta01 = 1;
+        int idConta02 = 2;
+
+        ContaCorrente conta01 = new ContaCorrente(idConta01, 100, true);
+        ContaCorrente conta02 = new ContaCorrente(idConta02, 0, true);
+
+        List<ContaCorrente> contasDoBanco = new ArrayList<>();
+        contasDoBanco.add(conta01);
+        contasDoBanco.add(conta02);
+
+        GerenciadoraContas gerContas = new GerenciadoraContas(contasDoBanco);
+
+        /* ############ Execução ############ */
+  
+        // Vamos chamar o método transfereValor e tentar transferir 100 reais da conta 1 para a conta 2
+  		boolean sucesso = gerContas.transfereValor(idConta01, 200, idConta02);
+		
+        /* ############ Verificação ############ */
+        assertTrue(sucesso);
+        assertEquals(-100.0, conta01.getSaldo());
+        assertEquals(200.0, conta02.getSaldo());
+
+    } 
+
+
+    /**
+	 * Teste básico da tentativa de transferência de um valor da conta de um cliente para outro,
+	 * quando não há saldo suficiente o saldo é negativo.
+     * 
+	 * @author Kaíque Matheus
+     * @date 01/03/2021 
+	 */
+    @Test
+    public void testTRansfereValor_SaldoNegativo(){
+
+        /* ############ Cenário ############ */
+        int idConta01 = 1;
+        int idConta02 = 2;
+
+        ContaCorrente conta01 = new ContaCorrente(idConta01, -100, true);
+        ContaCorrente conta02 = new ContaCorrente(idConta02, 0, true);
+
+        List<ContaCorrente> contasDoBanco = new ArrayList<>();
+        contasDoBanco.add(conta01);
+        contasDoBanco.add(conta02);
+
+        GerenciadoraContas gerContas = new GerenciadoraContas(contasDoBanco);
+        
+        /* ############ Execução ############ */
+
+        boolean sucesso = gerContas.transfereValor(idConta01, 200, idConta02);
+		
+        /* ############ Verificação ############ */
+
+        assertTrue(sucesso);
+        assertEquals(-300.0, conta01.getSaldo());
+        assertEquals(200.0, conta02.getSaldo());
+
+    }
+
+
+
+    /**
+	 * Teste básico da tentativa de transferência de um valor da conta de um cliente para outro,
+	 * quando o saldo do cliente origem é negativo e do cliente destino também é negativo.
+     * 
+	 * @author Kaíque Matheus
+     * @date 01/03/2021 
+	 */
+    @Test
+    public void testTransfereValor_SaldoNegativoParaNegativo() {
+
+        /* ############ Cenário ############ */
+        int idConta01 = 1;
+        int idConta02 = 2;
+    
+        ContaCorrente conta01 = new ContaCorrente(idConta01, -100, true);
+        ContaCorrente conta02 = new ContaCorrente(idConta02, -100, true);
+
+        List<ContaCorrente> contasDoBanco = new ArrayList<>();
+        contasDoBanco.add(conta01);
+        contasDoBanco.add(conta02);
+
+        GerenciadoraContas gerContas = new GerenciadoraContas(contasDoBanco);
+       
+        /* ############ Execução ############ */
+
+        boolean sucesso = gerContas.transfereValor(idConta01, 200, idConta02);
+		
+        /* ############ Verificação ############ */
+
+        assertTrue(sucesso);
+        assertEquals(-300.0, conta01.getSaldo());
+        assertEquals(100.0, conta02.getSaldo());
+
+    }
+
+    
+    /**
+	 * Teste básico da tentativa de transferência de um valor nulo da conta de um cliente para outro,
+     * 
+	 * @author Kaíque Matheus
+     * @date 01/03/2021 
+	 */
+    @Test
+    public void testTranfereValor_Nenhum(){
+
+        /* ############ Cenário ############ */
+        int idConta01 = 1;
+        int idConta02 = 2;
+    
+        ContaCorrente conta01 = new ContaCorrente(idConta01, -100, true);
+        ContaCorrente conta02 = new ContaCorrente(idConta02, -100, true);
+
+        
+        List<ContaCorrente> contasDoBanco = new ArrayList<>();
+        contasDoBanco.add(conta01);
+        contasDoBanco.add(conta02);
+
+        GerenciadoraContas gerContas = new GerenciadoraContas(contasDoBanco);
+
+        /* ############ Execução ############ */
+
+        boolean sucesso = gerContas.transfereValor(idConta01, 2, idConta02);
+
+        /* ############ Verificação ############ */
+
+        assertTrue(sucesso);
+        assertEquals(-102.0, conta01.getSaldo());
+        assertEquals(-98.0, conta02.getSaldo());
+
+    }
+
+
 }

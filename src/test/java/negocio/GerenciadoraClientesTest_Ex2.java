@@ -223,4 +223,5 @@ public class GerenciadoraClientesTest_Ex2 {
             assertEquals(IdadeNaoPermitidaException.MSG_IDADE_INVALIDA, e.getMessage());
 		}	
 	}
+
 }
